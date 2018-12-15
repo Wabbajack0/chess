@@ -23,4 +23,41 @@ class Board
     puts "    " + ("a".."h").to_a.join("   ")
   end
 
+  def reset
+    @squares.map! do |row|
+      row.map! { |sqr| sqr = nil }
+    end
+
+    @squares[0].map!.with_index do |sqr,index|
+      case index
+      when 0, 7
+        sqr = Rook.new
+      when 1, 6
+        sqr = Knight.new
+      when 2, 5
+        sqr = Bishop.new
+      when 3
+        sqr = Queen.new
+      when 4
+        sqr = King.new
+      end
+    end
+    @squares[1].map! { |sqr| sqr = Pawn.new }
+    @squares[6].map! { |sqr| sqr = Pawn.new(false) }
+    @squares[7].map!.with_index do |sqr,index|
+      case index
+      when 0, 7
+        sqr = Rook.new(false)
+      when 1, 6
+        sqr = Knight.new(false)
+      when 2, 5
+        sqr = Bishop.new(false)
+      when 3
+        sqr = Queen.new(false)
+      when 4
+        sqr = King.new(false)
+      end
+    end
+  end
+
 end
