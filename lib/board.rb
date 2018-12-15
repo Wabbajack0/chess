@@ -8,7 +8,7 @@ class Board
 
   def print
     puts "  +―――+―――+―――+―――+―――+―――+―――+―――+"
-    @squares.each_with_index do |row, index|
+    @squares.reverse.each_with_index do |row, index|
       temp = []
       row.each do |sqr|
         if sqr.nil?
