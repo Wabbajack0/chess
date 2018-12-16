@@ -14,7 +14,11 @@ class Board
         if sqr.nil?
           temp << "   "
         else
-          temp << " " + sqr.img + " "
+          if sqr.is_white
+            temp << " " + sqr.img + "w"
+          else
+            temp << " " + sqr.img + "b"
+          end
         end
       end
       puts "#{8 - index} │" + temp.join("│") + "│"
