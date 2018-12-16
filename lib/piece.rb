@@ -2,7 +2,7 @@ class Piece
   attr_accessor :is_white
 
   def initialize(is_white = true)
-    @is_black = is_white
+    @is_white = is_white
   end
 
 end
