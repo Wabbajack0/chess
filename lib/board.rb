@@ -28,40 +28,38 @@ class Board
   end
 
   def reset
+    # Cleans the board
     @squares.map! do |row|
       row.map! { |sqr| sqr = nil }
     end
-
+    # Adds white pieces
     @squares[0].map!.with_index do |sqr,index|
-      case index
-      when 0, 7
-        sqr = Rook.new
-      when 1, 6
-        sqr = Knight.new
-      when 2, 5
-        sqr = Bishop.new
-      when 3
-        sqr = Queen.new
-      when 4
-        sqr = King.new
-      end
+      sqr = reset_helper(index, true)
     end
     @squares[1].map! { |sqr| sqr = Pawn.new }
-    @squares[6].map! { |sqr| sqr = Pawn.new(false) }
+    # Adds black pieces
     @squares[7].map!.with_index do |sqr,index|
-      case index
-      when 0, 7
-        sqr = Rook.new(false)
-      when 1, 6
-        sqr = Knight.new(false)
-      when 2, 5
-        sqr = Bishop.new(false)
-      when 3
-        sqr = Queen.new(false)
-      when 4
-        sqr = King.new(false)
-      end
+      sqr = reset_helper(index, false)
     end
+    @squares[6].map! { |sqr| sqr = Pawn.new(false) }
   end
 
+  private
+
+  # Takes the index of the reset function and the color of
+  # the piece and returns the piece to place in that index
+  def reset_helper(index, is_white)
+    case index
+    when 0, 7
+      Rook.new(is_white)
+    when 1, 6
+      Knight.new(is_white)
+    when 2, 5
+      Bishop.new(is_white)
+    when 3
+      Queen.new(is_white)
+    when 4
+      King.new(is_white)
+    end
+  end
 end
