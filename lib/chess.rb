@@ -100,9 +100,9 @@ class Chess
         end
       else
         if x1 < x2
-          (y2...y1).each.with_index { |i,j| return false if !@board[i][8-x1-j].nil? }
+          (y2...y1).each.with_index { |i,j| return false if !@board[i][x2-1-j].nil? }
         else
-          (y2...y1).each.with_index { |i,j| return false if !@board[i][8-x1-j].nil? }
+          (y2...y1).each.with_index { |i,j| return false if !@board[i][x2+j+1].nil? }
         end
       end
     end
