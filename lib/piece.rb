@@ -1,50 +1,51 @@
 class Piece
-  attr_accessor :is_white
+  attr_accessor :is_white, :img
 
   def initialize(is_white = true)
     @is_white = is_white
+    @img = ""
   end
 
 end
 
 class Pawn < Piece
-  @@img = "P"
-  def img
-    @@img
+  def initialize(is_white = true)
+    super
+    is_white ? @img = "♙" : @img = "♟"
   end
 end
 
 class King < Piece
-  @@img = "K"
-  def img
-    @@img
+  def initialize(is_white = true)
+    super
+    is_white ? @img = "♔" : @img = "♚"
   end
 end
 
 class Queen < Piece
-  @@img = "Q"
-  def img
-    @@img
+  def initialize(is_white = true)
+    super
+    is_white ? @img = "♕" : @img = "♛"
   end
 end
 
 class Bishop < Piece
-  @@img = "B"
-  def img
-    @@img
+  def initialize(is_white = true)
+    super
+    is_white ? @img = "♗" : @img = "♝"
   end
 end
 
 class Knight < Piece
-  @@img = "N"
-  def img
-    @@img
+  def initialize(is_white = true)
+    super
+    is_white ? @img = "♘" : @img = "♞"
   end
 end
 
 class Rook < Piece
-  @@img = "R"
-  def img
-    @@img
+  def initialize(is_white = true)
+    super
+    is_white ? @img = "♖" : @img = "♜"
   end
 end
