@@ -17,7 +17,6 @@ class Chess
     return false if !@board[y2][x2].nil? && piece.is_white === @board[y2][x2].is_white
     return false if !piece.correct_move?(x1, y1, x2, y2)
     return false if !free_path?(x1, y1, x2, y2) && !piece.instance_of?(Knight)
-
     case
     when piece.instance_of?(Pawn)
       return false if x1 === x2 && !@board[y2][x2].nil?
@@ -30,6 +29,10 @@ class Chess
       @board[y2][x2] = piece
 
     when piece.instance_of?(Queen)
+      @board[y1][x1] = nil
+      @board[y2][x2] = piece
+
+    when piece.instance_of?(Bishop)
       @board[y1][x1] = nil
       @board[y2][x2] = piece
     end
@@ -97,9 +100,9 @@ class Chess
         end
       else
         if x1 < x2
-          (y2+1...y1).each.with_index { |i,j| return false if !@board[i][x1+j+1].nil? }
+          (y2...y1).each.with_index { |i,j| return false if !@board[i][8-x1-j].nil? }
         else
-          (y2+1...y1).each.with_index { |i,j| return false if !@board[i][x1-j-1].nil? }
+          (y2...y1).each.with_index { |i,j| return false if !@board[i][8-x1-j].nil? }
         end
       end
     end
