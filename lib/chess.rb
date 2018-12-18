@@ -16,11 +16,10 @@ class Chess
     return false if piece.nil?
     return false if !@board[y2][x2].nil? && piece.is_white === @board[y2][x2].is_white
     return false if !piece.correct_move?(x1, y1, x2, y2)
+    return false if !free_path?(x1, y1, x2, y2) && !piece.instance_of?(Knight)
 
     case
     when piece.instance_of?(Pawn)
-      return false if (y2 - y1) === 2 && !@board[y1 + 1][x1].nil?
-      return false if (y2 - y1) === -2 && !@board[y1 - 1][x1].nil?
       return false if x1 === x2 && !@board[y2][x2].nil?
       return false if x1 != x2 && @board[y2][x2].nil?
       @board[y1][x1] = nil
@@ -29,8 +28,10 @@ class Chess
     when piece.instance_of?(King)
       @board[y1][x1] = nil
       @board[y2][x2] = piece
-    else
-      puts "what???"
+
+    when piece.instance_of?(Queen)
+      @board[y1][x1] = nil
+      @board[y2][x2] = piece
     end
 
     return true
@@ -71,6 +72,39 @@ class Chess
   end
 
   private
+
+  # Checks if there is a piece from point a to point b
+  # excluding the final point
+  def free_path?(x1, y1, x2, y2)
+    if x1 === x2
+      if y1 < y2
+        (y1+1...y2).each { |i| return false if !@board[i][x1].nil? }
+      else
+        (y2+1...y1).each { |i| return false if !@board[i][x1].nil? }
+      end
+    elsif y2 === y1
+      if x1 < x2
+        (x1+1...x2).each { |i| return false if !@board[y1][i].nil? }
+      else
+        (x2+1...x1).each { |i| return false if !@board[y1][i].nil? }
+      end
+    else
+      if y1 < y2
+        if x1 < x2
+          (y1+1...y2).each.with_index { |i,j| return false if !@board[i][x1+j+1].nil? }
+        else
+          (y1+1...y2).each.with_index { |i,j| return false if !@board[i][x1-j-1].nil? }
+        end
+      else
+        if x1 < x2
+          (y2+1...y1).each.with_index { |i,j| return false if !@board[i][x1+j+1].nil? }
+        else
+          (y2+1...y1).each.with_index { |i,j| return false if !@board[i][x1-j-1].nil? }
+        end
+      end
+    end
+    return true
+  end
 
   # Takes the index of the reset function and the color of
   # the piece and returns the piece to place in that index
