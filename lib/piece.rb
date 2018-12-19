@@ -15,23 +15,14 @@ class Pawn < Piece
   end
 
   def correct_move?(x1, y1, x2, y2)
-    return false if (x2 - x1).abs > 1
-    return false if (x2 - x1).abs === 1 && (y2 - y1).abs === 2
-    return false if (y2 - y1).abs > 2
     if @is_white
-      return false if y2 <= y1
-      if y2 - y1 === 2
-        return true if y1 === 1
-        return false
-      end
+      return true if (y2 - y1) === 1
+      return true if (y2 - y1) === 2 && y1 === 1 && x1 === x2
     else
-      return false if y2 >= y1
-      if y2 - y1 === -2
-        return true if y1 === 6
-        return false
-      end
+      return true if (y2 - y1) === -1
+      return true if (y2 - y1) === -2 && y1 === 6 && x1 === x2
     end
-    return true
+    return false
   end
 end
 
@@ -42,9 +33,8 @@ class King < Piece
   end
 
   def correct_move?(x1, y1, x2, y2)
-    return false if (x2 - x1).abs > 1
-    return false if (y2 - y1).abs > 1
-    return true
+    return true if (x1 - x2).abs <= 1 && (y1 - y2).abs <= 1
+    return false
   end
 end
 
@@ -55,8 +45,7 @@ class Queen < Piece
   end
 
   def correct_move?(x1, y1, x2, y2)
-    return true if x1 === x2
-    return true if y1 === y2
+    return true if x1 === x2 || y1 === y2
     return true if (x2 - x1).abs === (y2 - y1).abs
     return false
   end
@@ -81,7 +70,8 @@ class Knight < Piece
   end
 
   def correct_move?(x1, y1, x2, y2)
-
+    return true if (x1 - x2).abs + (y1 - y2).abs === 3 && (x1 - x2) * (y1 - y2) != 0
+    return false
   end
 end
 
@@ -92,6 +82,7 @@ class Rook < Piece
   end
 
   def correct_move?(x1, y1, x2, y2)
-
+    return true if x1 === x2 || y1 === y2
+    return false
   end
 end
